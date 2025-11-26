@@ -6,10 +6,11 @@ import React, { use } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
+import { imageUpload } from "@/utils";
 
 export default function Register() {
   const { createUser, updateUserProfile, signInWithGoogle, loading } =
-    use(AuthContext);
+   use(AuthContext);
   const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams.get("from") || "/"; // CHANGED: Access 'from' via searchParams
@@ -24,9 +25,12 @@ export default function Register() {
   console.log(errors);
 
   const onSubmit = async (data) => {
+     console.log(data);
     const { name, email, password, image } = data;
-
+    const imageFile = image[0];
     try {
+       const imageURL = await imageUpload(imageFile);
+       console.log(imageURL)
       //2. User Registration
       const result = await createUser(email, password);
 
@@ -40,6 +44,7 @@ export default function Register() {
       console.log(err);
       toast.error(err?.message);
     }
+   
   };
 
   // Handle Google Signin
@@ -175,12 +180,13 @@ export default function Register() {
               type="submit"
               className="bg-lime-500 w-full rounded-md py-3 text-white"
             >
-              {/*  {loading ? (
-                <TbFidgetSpinner className="animate-spin m-auto" />
+               {loading ? (
+                // <TbFidgetSpinner className="animate-spin m-auto" /> 
+                <FcGoogle className="animate-spin m-auto" />
               ) : (
                 "Continue"
-              )} */}
-              Continue
+              )}
+              
             </button>
           </div>
         </form>

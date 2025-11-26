@@ -1,16 +1,20 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, {  useContext, useState } from "react";
 import { AiOutlineMenu } from "react-icons/ai";
 import Container from "./Container";
+import { AuthContext } from "@/context/AuthContext";
 
 
 export default function Navbar() {
  // We remove useAuth hook as requested
+ const { user, logOut } = useContext(AuthContext);
+ console.log('hey',user)
+ 
   const [isOpen, setIsOpen] = useState(false);
   
   // Define a placeholder for user state to control visibility of links
-  const user = false; // Set to null (logged out) or an object (logged in) for testing
+ // Set to null (logged out) or an object (logged in) for testing
 
  
 
@@ -34,7 +38,9 @@ export default function Navbar() {
                 >
                   <AiOutlineMenu />
                   {/* Placeholder for avatar section - using simple text */}
-                  <div className='hidden md:block text-sm'>Menu</div> 
+                 
+                  
+                  
                 </div>
               </div>
               {isOpen && (

@@ -4,7 +4,7 @@ import React from "react";
 export default function Footer() {
   return (
     
-   <footer className="max-w-5xl mx-auto footer sm:footer-horizontal bg-neutral text-neutral-content p-10">
+   <footer className="max-w-full mx-auto py-8 mt-8 bg-gray-100 footer sm:footer-horizontal bg-neutral text-neutral-content p-10">
   <aside>
     <svg
       width="50"
