@@ -1,0 +1,9 @@
+{
+  "framework": "nextjs",
+  "root": "frontend",
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  }
+}
