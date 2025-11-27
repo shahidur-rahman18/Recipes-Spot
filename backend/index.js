@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const app = express();
 const cors = require("cors");
@@ -30,9 +31,9 @@ async function run() {
 
     // Save a plant data in db
     app.post("/recipes", async (req, res) => {
-      const plantData = req.body;
-      console.log(plantData);
-      const result = await recipesCollection.insertOne(plantData);
+      const recipeData = req.body;
+      console.log(recipeData);
+      const result = await recipesCollection.insertOne(recipeData);
       res.send(result);
     });
   

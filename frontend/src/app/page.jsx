@@ -7,6 +7,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import SloganBanner from "../../components/Slogan";
+import Card from "../../components/Card";
+import Recipe from "../../components/Recipe";
 
 // Define your slide content
 const slides = [
@@ -102,6 +104,10 @@ export default function Home() {
         ))}
       </Carousel>
     </section>
+
+    <div >
+    <Recipe></Recipe>
+    </div>
     </div>
   );
 }
