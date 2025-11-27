@@ -7,7 +7,7 @@ const PORT = 5000; // Choose any available port, 5000 is common
 // middleware
 app.use(
   cors({
-    origin: ["http://localhost:3000/"],
+    origin: ["http://localhost:3000"],
     credentials: true,
     optionSuccessStatus: 200,
   })
@@ -23,12 +23,10 @@ const client = new MongoClient(process.env.MONGODB_URI, {
   },
 });
 
-
 async function run() {
   try {
     const db = client.db("recipesDB");
     const recipesCollection = db.collection("recipes");
-   
 
     // Save a plant data in db
     app.post("/recipes", async (req, res) => {
@@ -37,7 +35,9 @@ async function run() {
       const result = await recipesCollection.insertOne(plantData);
       res.send(result);
     });
+  
 
+    // MONGODB_URI="mongodb+srv://recipeSpotDB:04QfbAEELYZmANoZ@cluster0.kpwp5y5.mongodb.net/?appName=Cluster0"
     // get all plants from db
     app.get("/recipes", async (req, res) => {
       const result = await recipesCollection.find().toArray();
@@ -52,10 +52,6 @@ async function run() {
       res.send(result);
     });
 
- 
-
-  
-
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
@@ -66,15 +62,6 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
-
-
-
-
-
-
-
-
 
 // 1. Define a simple route to test
 app.get("/", (req, res) => {
