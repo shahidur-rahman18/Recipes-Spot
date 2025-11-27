@@ -4,7 +4,7 @@ import React from "react";
 export default function Footer() {
   return (
     <div>
-      <footer className="footer footer-horizontal footer-center bg-base-200 text-base-content rounded p-10">
+      <footer className="footer footer-horizontal footer-center bg-red-500 text-base-content rounded p-10">
   <nav className="grid grid-flow-col gap-4">
     <a className="link link-hover">About us</a>
     <a className="link link-hover">Contact</a>

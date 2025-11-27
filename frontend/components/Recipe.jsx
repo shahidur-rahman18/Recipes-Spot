@@ -12,7 +12,8 @@ export default function Recipe() {
   useEffect(() => {
     async function fetchRecipes() {
       try {
-        const response = await fetch('http://localhost:5000/recipes');
+        const API_BASE = process.env.NEXT_PUBLIC_BASE_URL_API;
+       const response = await fetch(`${API_BASE}/recipes`);
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -47,7 +48,7 @@ export default function Recipe() {
   return (
     <Container>
       {recipes && recipes.length > 0 ? (
-        <div className="pt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-8">
+        <div className="pt-12 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  gap-8">
           {recipes.map((recipe) => (
             // Prop Drilling: Pass the recipe data as a prop
             <Card key={recipe._id} recipe={recipe} /> 
