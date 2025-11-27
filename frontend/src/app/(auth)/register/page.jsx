@@ -2,19 +2,28 @@
 import { AuthContext } from "@/context/AuthContext";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useRouter, useSearchParams } from "next/navigation";
 import { imageUpload } from "@/utils";
+import {
+  AiOutlineEye,
+  AiOutlineEyeInvisible,
+  AiOutlineLoading3Quarters,
+} from "react-icons/ai";
 
 export default function Register() {
   const { createUser, updateUserProfile, signInWithGoogle, loading } =
-   use(AuthContext);
+    use(AuthContext);
   const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams.get("from") || "/"; // CHANGED: Access 'from' via searchParams
-
+  const [showPassword, setShowPassword] = useState(false);
+  const togglePasswordVisibility = () => {
+    // <--- ADD THIS FUNCTION
+    setShowPassword((prev) => !prev);
+  };
   // form submit handler
 
   const {
@@ -25,12 +34,12 @@ export default function Register() {
   console.log(errors);
 
   const onSubmit = async (data) => {
-     console.log(data);
+    console.log(data);
     const { name, email, password, image } = data;
     const imageFile = image[0];
     try {
-       const imageURL = await imageUpload(imageFile);
-       console.log(imageURL)
+      const imageURL = await imageUpload(imageFile);
+      console.log(imageURL);
       //2. User Registration
       const result = await createUser(email, password);
 
@@ -44,7 +53,6 @@ export default function Register() {
       console.log(err);
       toast.error(err?.message);
     }
-   
   };
 
   // Handle Google Signin
@@ -153,22 +161,36 @@ export default function Register() {
                   Password
                 </label>
               </div>
-              <input
-                type="password"
-                autoComplete="new-password"
-                id="password"
-                placeholder="*******"
-                className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200 text-gray-900"
-                {...register("password", {
-                  required: "Password is required",
-                  pattern: {
-                    value:
-                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
-                    message:
-                      "Password must be 6+ chars, include uppercase, lowercase, number & special char",
-                  },
-                })}
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"} // Dynamic type toggle
+                  id="password"
+                  autoComplete="new-password"
+                  placeholder="*******"
+                  className="w-full px-3 py-2 border rounded-md border-gray-300 focus:outline-lime-500 bg-gray-200 text-gray-900 pr-10" // Added pr-10 for icon space
+                  {...register("password", {
+                    required: "Password is required",
+                    pattern: {
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$/,
+                      message:
+                        "Password must be 6+ chars, include uppercase, lowercase, number & special char",
+                    },
+                  })}
+                />
+
+                {/* Toggle Button/Icon */}
+                <div
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 cursor-pointer text-gray-600"
+                  onClick={togglePasswordVisibility}
+                >
+                  {showPassword ? (
+                    <AiOutlineEye size={20} /> // Icon for visible password
+                  ) : (
+                    <AiOutlineEyeInvisible size={20} /> // Icon for hidden password
+                  )}
+                </div>
+              </div>
               {errors.password && (
                 <p className="text-red-500 mt-1">{errors.password.message}</p>
               )}
@@ -178,15 +200,14 @@ export default function Register() {
           <div>
             <button
               type="submit"
-              className="bg-lime-500 w-full rounded-md py-3 text-white"
+              className="bg-red-500 0 w-full rounded-md py-3 text-white"
             >
-               {loading ? (
-                // <TbFidgetSpinner className="animate-spin m-auto" /> 
-                <FcGoogle className="animate-spin m-auto" />
+              {loading ? (
+                // <TbFidgetSpinner className="animate-spin m-auto" />
+                <AiOutlineLoading3Quarters className="animate-spin m-auto" />
               ) : (
                 "Continue"
               )}
-              
             </button>
           </div>
         </form>
@@ -209,11 +230,10 @@ export default function Register() {
           Already have an account?{" "}
           <Link
             href="/login"
-            className="hover:underline hover:text-lime-500 text-gray-600"
+            className="hover:underline hover:text-red-500 text-gray-600"
           >
             Login
           </Link>
-          .
         </p>
       </div>
     </div>
