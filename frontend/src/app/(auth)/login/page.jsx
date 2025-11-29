@@ -1,6 +1,7 @@
 // src/app/(auth)/login/page.jsx
 import React, { Suspense } from "react";
-import LoginContent from "./LoginContent"; // Import the new client component
+import LoginContent from "./login";
+
 
 // Fallback component for Suspense (optional, but good practice)
 function LoadingFallback() {
